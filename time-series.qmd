@@ -9,8 +9,6 @@ library(tidyverse)
 
 ## The Retail Sales Data Set {#sec-retail-data}
 
-We read the data
-
 ```{r}
 #| eval: true
 #| include: false
