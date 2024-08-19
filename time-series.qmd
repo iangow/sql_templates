@@ -1,0 +1,93 @@
+# Time Series Analysis {#sec-time-series}
+
+```{r}
+#| message: false
+#| include: false
+library(DBI)
+library(tidyverse)
+```
+
+## The Retail Sales Data Set {#sec-retail-data}
+
+We read the data
+
+```{r}
+#| eval: true
+#| include: false
+db <- dbConnect(duckdb::duckdb())
+
+retail_sales <- 
+  tbl(db, "read_csv('data/us_retail_sales.csv')") |>
+  compute(name = "retail_sales")
+```
+
+## Trending the Data
+
+### Simple Trends
+
+```{sql, connection = db}
+SELECT sales_month, sales
+FROM retail_sales
+WHERE kind_of_business = 'Retail and food services sales, total'
+ORDER BY 1;
+```
+
+```{sql, connection = db}
+SELECT date_part('year',sales_month) as sales_year,
+    sum(sales) as sales
+FROM retail_sales
+WHERE kind_of_business = 'Retail and food services sales, total'
+GROUP BY 1;
+```
+
+```{sql, connection = db}
+SELECT date_part('year',sales_month) as sales_year, 
+  kind_of_business, sum(sales) as sales
+FROM retail_sales
+WHERE kind_of_business IN 
+          ('Book stores',
+           'Sporting goods stores',
+           'Hobby, toy, and game stores')
+GROUP BY 1,2
+ORDER BY 1;
+```
+
+### Comparing Components
+
+```{sql, connection = db}
+SELECT sales_month, kind_of_business, sales
+FROM retail_sales
+WHERE kind_of_business IN ('Men''s clothing stores','Women''s clothing stores')
+ORDER BY 1,2;
+```
+
+```{sql, connection = db}
+SELECT date_part('year',sales_month) as sales_year,
+  kind_of_business, sum(sales) as sales
+FROM retail_sales
+WHERE kind_of_business IN 
+        ('Men''s clothing stores',
+        'Women''s clothing stores')
+GROUP BY 1, 2
+ORDER BY 1, 2;
+```
+
+```{sql, connection = db}
+SELECT date_part('year', sales_month) AS sales_year,
+  sum(CASE WHEN kind_of_business = 'Women''s clothing stores' 
+          then sales 
+          END) AS womens_sales,
+  sum(CASE WHEN kind_of_business = 'Men''s clothing stores' 
+          then sales 
+          END) AS mens_sales
+FROM retail_sales
+WHERE kind_of_business IN 
+   ('Men''s clothing stores',
+    'Women''s clothing stores')
+GROUP BY 1
+ORDER BY 1;
+```
+
+```{r}
+dbDisconnect(db)
+```
