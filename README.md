@@ -2,8 +2,8 @@
 
 ## Setting up your computer
 
-Assuming that you have the ability to install software and a WRDS account, setting up your computer so that you can run the code in this book is straightforward and takes just a few minutes.
-We list the required steps below and also provide a video demonstrating these steps [online](https://www.youtube.com/watch?v=xRY6Y8qXUJ8).
+Assuming that you have the ability to install software, setting up your computer so that you can run the code in this course is straightforward and takes just a few minutes.
+We list the required steps below:
 
 1. Download and install R.
 R is available for all major platforms (Windows, Linux, and MacOS) [here](https://cloud.r-project.org).
