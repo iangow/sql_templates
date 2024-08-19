@@ -14,8 +14,8 @@ An open-source version of RStudio is available [here](https://www.rstudio.com/pr
 3. Install required packages from [CRAN](https://cran.r-project.org).
 CRAN stands for "Comprehensive R Archive Network" and is the official repository for **packages** (also known as **libraries**) made available for R.
   In this course, we will make use of a number of R packages.
-  These can be installed easily by running the following code in RStudio.^[You can copy and paste the code into the "Console" in RStudio.]
-
+  These can be installed easily by running the following code in RStudio. 
+  (You can copy and paste the code into the "Console" in RStudio.)
 
 ``` r
 install.packages(c("tidyverse", "duckdb"))
